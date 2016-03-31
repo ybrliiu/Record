@@ -5,14 +5,17 @@ package Record::List {
   
   use Record;
   
-  # Dataの最大数
+  # データ格納,Dataの最大数
+  has 'Data' => (is => 'rw', isa => 'ArrayRef');
   has 'Max' => (is => 'ro', isa => 'Int', required => 1);
   
-  # Dataアテリビュートの型
-  around '_data_type' => sub {
-    my ($orig, $class, $type) = @_;
-    return "ArrayRef[$type]";
-  };
+  # データ取得
+  sub get {
+    my ($self, $num) = @_;
+    my @result = @{$self->Data};
+    splice(@result, $num);
+    return \@result;
+  }
   
   # データ追加
   sub add {

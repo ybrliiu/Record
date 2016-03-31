@@ -1,19 +1,30 @@
-package Record 0.01 {
+package Record 0.02 {
 
   use strict;
   use warnings;
   use utf8;
   use feature ':5.14';
   
+  use Cwd 'getcwd';
+  
   # インポート
   sub import {
     my ($class, $option) = @_;
     $option //= '';
-    if($option eq 'test'){
+    if($option eq 'Test'){
       $_->import for(qw/strict warnings/);
+      unshift @INC, './t/lib'; # テストの時パス追加
     }
     utf8->import;
     feature->import(':5.18');
+  }
+  
+  # project_dir
+  sub project_dir {
+    state $dir;
+    return $dir if $dir;
+    $dir = getcwd() . '/';
+    $dir;
   }
   
 }

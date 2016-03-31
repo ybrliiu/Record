@@ -6,11 +6,7 @@ package Record::Hash {
   use Record;
   use Carp qw/croak/; # モジュールでのdie;
   
-  # Dataアテリビュートの型
-  around '_data_type' => sub {
-    my ($orig, $class, $type) = @_;
-    return "HashRef[$type]";
-  };
+  has 'Data' => (is => 'rw', isa => 'HashRef');
   
   # データ取得
   sub find {

@@ -9,38 +9,11 @@ package Record::Base {
   # アテリビュート(フィールド+アクセッサ)
   has 'File' => (is => 'rw', isa => 'Str', required => 1);
   has 'FH' => (is => 'rw', isa => 'FileHandle');
-# has 'Data' (...) _define_attribute($type) で動的に定義
-  
-  # インスタンス生成前処理
-  around 'BUILDARGS' => sub {
-    my ($orig, $class) = (shift, shift);
-    my ($type_key, $type_value) = ($_[0], $_[1]);
-    if($type_key eq 'type' && $type_value){
-      $class->_define_attribute($type_value);
-      shift, shift;
-    }else{
-      $class->_define_attribute('Any');
-    }
-    return $class->$orig(@_);
-  };
-  
-  # dataアテリビュート生成
-  sub _define_attribute {
-    my ($class, $type) = @_;
-    $class->meta->add_attribute(
-      'Data',
-      is => 'rw',
-      isa => $class->_data_type($type), # ロール使った側で定義
-    );
-  }
-  
-  # dataアテリビュートの型(このロールを使用した側で定義)
-  sub _data_type { 'Any' }
   
   # インスタンス生成後処理
   sub BUILD {
     my $self = shift;
-    $self->File( Jikkoku->project_dir() . $self->File );
+    $self->File( Record->project_dir() . $self->File );
   }
   
   # ファイルオープン
@@ -54,9 +27,8 @@ package Record::Base {
       $self->Data(fd_retrieve $self->FH);
     }else{
       open(my $fh, '<', $self->File);
-      $self->FH($fh);
-      $self->Data(fd_retrieve $self->FH);
-      close $self->FH;
+      $self->Data(fd_retrieve $fh);
+      close $fh;
     }
     return $self; # メソッドチェーン用
   }
@@ -80,7 +52,7 @@ package Record::Base {
   # ファイル削除
   sub remove {
     my $self = shift;
-    $ENV{MOJO_MODE} eq 'test' ? unlink $self->File : croak 'テストモードでないので使用できません';
+    unlink $self->File;
   }
   
 }
