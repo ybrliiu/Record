@@ -1,5 +1,5 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "データ保存モジュール",
    "author" : [
       "liiu <yliiu_nan-na@docomo.ne.jp>"
    ],
@@ -42,7 +42,7 @@
       },
       "runtime" : {
          "requires" : {
-            "perl" : "5.008001"
+            "perl" : "5.014004"
          }
       },
       "test" : {

@@ -1,6 +1,6 @@
 # NAME
 
-Record - It's new $module
+Record - データ保存モジュール
 
 # SYNOPSIS
 

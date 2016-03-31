@@ -1,11 +1,22 @@
-package Record;
-use 5.008001;
-use strict;
-use warnings;
+package Record 0.01 {
 
-our $VERSION = "0.01";
-
-
+  use strict;
+  use warnings;
+  use utf8;
+  use feature ':5.14';
+  
+  # インポート
+  sub import {
+    my ($class, $option) = @_;
+    $option //= '';
+    if($option eq 'test'){
+      $_->import for(qw/strict warnings/);
+    }
+    utf8->import;
+    feature->import(':5.18');
+  }
+  
+}
 
 1;
 __END__
@@ -14,7 +25,7 @@ __END__
 
 =head1 NAME
 
-Record - It's new $module
+Record - データ保存モジュール
 
 =head1 SYNOPSIS
 
