@@ -21,13 +21,15 @@ subtest 'input' => sub {
 
 subtest 'insert' => sub {
   my $none = 'nothing';
-  $obj->insert($none, 5, 3);
+  $obj->insert($none, [2, 4], 3); # 1,4番に3つ空白を入れる
   my $commands = $obj->Data;
-  is($commands->[4], 'write');
-  is($commands->[5], $none);
-  is($commands->[6], $none);
-  is($commands->[7], $none);
-  is($commands->[8], 'command');
+  isnt($commands->[1], $none);
+  is($commands->[$_], $none) for (2 .. 4);
+  isnt($commands->[5], $none);
+  
+  isnt($commands->[6], $none);
+  is($commands->[$_], $none) for (7 .. 9);
+  isnt($commands->[10], $none);
 };
 
 subtest 'make' => sub {

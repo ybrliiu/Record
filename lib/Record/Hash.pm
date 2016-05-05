@@ -14,6 +14,19 @@ package Record::Hash {
     my $data = $self->Data;
     return exists($data->{$key}) ? $data->{$key} : croak 'キーが存在しません';
   }
+
+  # キーに対応するデータの存在確認
+  sub exists {
+    my ($self, $key) = @_;
+    my $data = $self->Data;
+    return exists($data->{$key});
+  }
+
+  # 格納されているオブジェクト内、$nameアテリビュートと$valueが対応するオブジェクトのリストを返却(DBのSELECT文的な)
+  sub search {
+    my ($self, $name, $value) = @_;
+    return map { $_->$name eq $value ? $_ : () } values %{ $self->Data };
+  }
   
   # データ追加
   sub add {

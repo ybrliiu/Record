@@ -7,13 +7,14 @@ package Test::Record {
 
   # データ記録ファイルを実際に作成、読み込み、書き込み、削除するテスト
   sub makefile {
-    my ($class, $obj, $data) = @_;
+    my ($class, $obj, $data, $dont_remove) = @_;
+    $dont_remove //= '';
     ok $obj->make;
     ok $obj->open;
-    ok $obj->open(1);
+    ok $obj->open('LOCK_EX');
     ok $obj->Data($data);
     ok $obj->close;
-    ok $obj->remove;
+    ok $obj->remove unless $dont_remove;
   }
 
 }

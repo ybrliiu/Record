@@ -1,4 +1,4 @@
-package Record 0.02 {
+package Record 0.04 {
 
   use strict;
   use warnings;

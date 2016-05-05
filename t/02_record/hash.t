@@ -1,6 +1,7 @@
 use Record 'Test';
 use Test::More; # テストモジュール
 use Test::Exception; # 例外を伴うテスト
+use Test::MockObject; # モックオブジェクト
 use Test::Record; # テストメソッド集
 
 use Record::Hash;
@@ -26,10 +27,27 @@ subtest 'add' => sub {
   dies_ok { $obj->add(what => 'aaaa') } '既に同じキーのデータがある';
 };
 
-subtest 'update&find' => sub {
+subtest 'update&find&exists' => sub {
   my $str = 'change';
   ok $obj->update(what => $str);
   is($obj->find('what'), $str);
+  ok $obj->exists('what');
+  ok !$obj->exists('hoge');
+};
+
+subtest 'search' => sub {
+  my $mock = Test::MockObject->new();
+  $mock->set_always(hoge => "Message");
+  my $record = $class->new(File => $dir);
+  $record->add(hoge => $mock);
+  ok my ($result) = ($record->search(hoge => "Message"));
+  is($result->hoge, "Message");
+  ok 1;
+};
+
+subtest 'delete' => sub {
+  ok $obj->delete('what');
+  dies_ok { $obj->find('what') }
 };
 
 subtest 'Filedir' => sub {

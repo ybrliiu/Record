@@ -18,35 +18,49 @@ package Record::Base {
   
   # ファイルオープン
   sub open {
-    my $self = shift;
-    my $lock = shift // '';
-    if($lock){
-      open(my $fh, '+<', $self->File) or croak 'fileopen失敗:' . $self->File;
+    my ($self, $lock) = @_;
+    $lock //= '';
+
+    # モード
+    state $mode = {
+      LOCK_SH => 1,    # 共有ロック
+      LOCK_EX => 2,    # 排他ロック
+      NB_LOCK_SH => 5, # ノンブロックな共有ロック(ノンブロックの場合、ロックできなければdie）
+      NB_LOCK_EX => 6, # ノンブロックな排他ロック
+    };
+
+    if (exists $mode->{$lock}) {
+      open(my $fh, '+<', $self->File) or croak "fileopen失敗:$!".$self->File;
       $self->FH($fh);
-      while(!flock($self->FH,6)){ sleep(1); }
+      flock($self->FH, $mode->{$lock}) or croak "flock失敗:$!";
       $self->Data(fd_retrieve $self->FH);
-    }else{
-      open(my $fh, '<', $self->File);
-      $self->Data(fd_retrieve $fh);
-      close $fh;
+    } else {
+      unless ($self->Data) {
+        open(my $fh, '<', $self->File) or croak "fileopen失敗:$!".$self->File;
+        $self->Data(fd_retrieve $fh);
+        $fh->close;
+      }
     }
+
     return $self; # メソッドチェーン用
   }
   
   # ファイル作成
   sub make {
     my $self = shift;
-    nstore($self->Data,$self->File);
+    nstore($self->Data, $self->File);
     return $self; # メソッドチェーン用
   }
   
   # ファイル閉じる
   sub close {
     my $self = shift;
-    truncate($self->FH,0) or croak '多分書き込みモードでファイルを開いていないか、書き込みモードで2度ファイルを開いています';
-    seek($self->FH,0,0) or croak 'seek失敗';
+    truncate($self->FH, 0) or croak '多分書き込みモードでファイルを開いていないか、書き込みモードで2度ファイルを開いています';
+    seek($self->FH, 0, 0) or croak 'seek失敗';
     nstore_fd($self->Data, $self->FH) or croak 'nstore_fd失敗';
-    close $self->FH or croak 'close失敗';
+    $self->{Data} = undef;
+    close($self->FH) or croak 'close失敗';
+    return 1;
   }
   
   # ファイル削除

@@ -17,21 +17,22 @@ package Record::List::Command {
   # コマンド削除
   sub delete {
     my ($self, $none_obj, $delete_list) = @_;
-    my $command = $self->input('delete', $delete_list)->Data; # 目印つける
-    @$command = map { $_ eq 'delete' ? () : $_ } @$command; # 目印をつけたデータを削除
+    my @command = @{ $self->input('delete', $delete_list)->Data }; # 目印つける
+    @command = map { $_ eq 'delete' ? () : $_ } @command; # 目印をつけたデータを削除
     my @empty = map { $none_obj } 0 .. @$delete_list; # 空データを削除した個数分作って
-    push(@$command,@empty); # コマンドの配列の後ろに挿入
-    $self->Data($command);
+    push(@command, @empty); # コマンドの配列の後ろに挿入
+    $self->Data(\@command);
     return $self;
   }
   
   # 空白注入
   sub insert {
-    my ($self, $none_obj, $no, $num) = @_;
-    my $command = $self->Data;
-    my @insert = map { $none_obj } 0 .. $num-1;
-    splice(@$command, $no, 0, @insert); # $no の配列に@insertを挿入
-    $self->Data($command);
+    my ($self, $none_obj, $insert_list, $num) = @_;
+    my %insert_list = map { $_ => 'insert' } @$insert_list; # 挿入場所をキー、insertを値とする値を作成
+    my @insert = map { $none_obj } 0 .. $num-1; # 空データを挿入する個数分作る
+    my @command = @{ $self->Data };
+    my @new_command = map { exists($insert_list{$_}) ? (@insert, $command[$_]) : $command[$_] } 0 .. $#command;
+    $self->Data(\@new_command);
     return $self;
   } 
   
