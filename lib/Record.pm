@@ -11,12 +11,16 @@ package Record 0.04 {
   sub import {
     my ($class, $option) = @_;
     $option //= '';
+
     if($option eq 'Test'){
       $_->import for(qw/strict warnings/);
       unshift @INC, './t/lib'; # テストの時パス追加
     }
     utf8->import;
-    feature->import(':5.18');
+    feature->import(':5.14');
+
+    # 自分自身をrequireしても大丈夫なのか
+    require Record::Exception;
   }
   
   # project_dir

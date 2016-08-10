@@ -2,21 +2,20 @@ package Record::List::CommandList {
   
   use Mouse;
   extends 'Record::List'; # 継承
-  
   use Record;
   
   # コマンドリストデータ取得
   sub find {
     my ($self, $no) = @_;
-    return $self->Data->[$no];
+    return $self->data->[$no];
   }
   
   # コマンドリストデータ更新
   sub update {
     my ($self, $no, $obj) = @_;
-    my $data = $self->Data;
+    my $data = $self->data;
     $data->[$no] = $obj;
-    $self->Data($data);
+    $self->data($data);
     return $self;
   }
   
