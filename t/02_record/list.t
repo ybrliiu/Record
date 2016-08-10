@@ -9,15 +9,15 @@ my $max = 50;
 
 subtest 'new' => sub {
   $obj = $class->new(
-    File => 'test_list.dat',
-    Max => $max,
+    file => 'test_list.dat',
+    max => $max,
   );
   isa_ok($obj,$class);
   can_ok($obj,qw/open make close remove/);
 };
 
 subtest 'set_alldata' => sub {
-  ok $obj->Data([0 .. 15]);
+  ok $obj->data([0 .. 15]);
 };
 
 subtest 'get' => sub {
@@ -27,7 +27,7 @@ subtest 'get' => sub {
 
 subtest 'add' => sub {
   $obj->add('test')->add('test2');
-  my $data = $obj->Data;
+  my $data = $obj->data;
   is($data->[0], 'test2');
   is($data->[1], 'test');
 };
@@ -35,7 +35,7 @@ subtest 'add' => sub {
 subtest 'make' => sub {
   Test::Record->makefile($obj, [0 .. 100], 1);
   $obj->open();
-  is(@{$obj->Data}, $max, 'after_close');
+  is(@{$obj->data}, $max, 'after_close');
   ok $obj->remove();
 };
 

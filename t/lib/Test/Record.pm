@@ -12,7 +12,7 @@ package Test::Record {
     ok $obj->make;
     ok $obj->open;
     ok $obj->open('LOCK_EX');
-    ok $obj->Data($data);
+    ok $obj->data($data);
     ok $obj->close;
     ok $obj->remove unless $dont_remove;
   }

@@ -10,19 +10,19 @@ my $obj;
 my $dir = 'test_hash.dat';
 
 subtest 'new' => sub {
-  $obj = $class->new(File => $dir);
+  $obj = $class->new(file => $dir);
   isa_ok($obj,$class);
   can_ok($obj,qw/open make close remove find add delete get_list/);
 };
 
 subtest 'set_alldata' => sub {
-  ok $obj->Data({});
+  ok $obj->data({});
 };
 
 subtest 'add' => sub {
   my $str = "文章です";
   ok $obj->add(what => $str);
-  is($obj->Data->{what}, $str);
+  is($obj->data->{what}, $str);
   dies_ok { $obj->add('' => 'aaaa') } '空文字列キー使用';
   dies_ok { $obj->add(what => 'aaaa') } '既に同じキーのデータがある';
 };
@@ -38,7 +38,7 @@ subtest 'update&find&exists' => sub {
 subtest 'search' => sub {
   my $mock = Test::MockObject->new();
   $mock->set_always(hoge => "Message");
-  my $record = $class->new(File => $dir);
+  my $record = $class->new(file => $dir);
   $record->add(hoge => $mock);
   ok my ($result) = ($record->search(hoge => "Message"));
   is($result->hoge, "Message");
@@ -50,8 +50,8 @@ subtest 'delete' => sub {
   dies_ok { $obj->find('what') }
 };
 
-subtest 'Filedir' => sub {
-  like($obj->File, qr/$dir/);
+subtest 'filedir' => sub {
+  like($obj->file, qr/$dir/);
 };
 
 subtest 'make' => sub {

@@ -7,12 +7,12 @@ my $class = 'Record::List::Log';
 my $obj;
 
 subtest 'new' => sub {
-  $obj = $class->new(File => 'test_log.dat', Max => 100);
+  $obj = $class->new(file => 'test_log.dat', max => 100);
   isa_ok($obj, $class);
 };
 
 subtest 'make' => sub {
-  $obj->Data([]);
+  $obj->data([]);
   Test::Record->makefile($obj, [qw/0 0 0 0 0 0/]);
 };
 

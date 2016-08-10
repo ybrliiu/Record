@@ -7,12 +7,12 @@ my $class = 'Record::List::CommandList';
 my $obj;
 
 subtest 'new' => sub {
-  $obj = $class->new(File => 'test_command_list.dat', Max => 15);
+  $obj = $class->new(file => 'test_command_list.dat', max => 15);
   isa_ok($obj, $class);
 };
 
 subtest 'find' => sub {
-  $obj->Data([0 .. 14]);
+  $obj->data([0 .. 14]);
   is($obj->find(5), 5);
 };
 
