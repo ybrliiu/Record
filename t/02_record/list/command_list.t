@@ -1,6 +1,7 @@
 use Record 'Test';
 use Test::More;
 use Test::Record;
+use Test::Exception;
 
 use Record::List::CommandList;
 my $class = 'Record::List::CommandList';
@@ -11,14 +12,15 @@ subtest 'new' => sub {
   isa_ok($obj, $class);
 };
 
-subtest 'find' => sub {
+subtest 'at' => sub {
   $obj->data([0 .. 14]);
-  is($obj->find(5), 5);
+  is($obj->at(5), 5);
+  dies_ok { $obj->at(15) };
 };
 
-subtest 'update' => sub {
-  ok $obj->update(5, 'update_data');
-  is($obj->find(5), 'update_data');
+subtest 'save' => sub {
+  ok $obj->save(5, 'save_data');
+  is($obj->at(5), 'save_data');
 };
 
 subtest 'make' => sub {
