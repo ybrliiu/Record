@@ -4,5 +4,7 @@ requires 'Mouse', '2.4.5';
 on 'test' => sub {
     requires 'Test::More', '1.001014';
     requires 'Test::Exception', '0.43';
+    requires 'Test::Name::FromLine';
+    requires 'Path::Tiny';
 };
 

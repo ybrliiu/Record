@@ -1,8 +1,9 @@
 use Record 'test';
-use Test::More; # テストモジュール
-use Test::Exception; # 例外を伴うテスト
-use Test::MockObject; # モックオブジェクト
-use Test::Record; # テストメソッド集
+use Test::More;
+use Test::Exception;
+use Test::MockObject;
+use Test::Record;
+my $TR = Test::Record->new();
 
 use Record::Hash;
 my $class = 'Record::Hash';

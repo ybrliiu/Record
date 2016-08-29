@@ -24,7 +24,7 @@ subtest 'operation verification' => sub {
   my $e = $@;
   ok $class->caught($e), 'discriminate error';
   is $e->obj->{something}, 'ほげほげ', '例外投げた時のデータ確認';
-  like $e, qr/test_throw at t\/02_record\/exception.t line /, 'メッセージ確認';
+  like $e, qr/test_throw at t\/record\/exception.t line /, 'メッセージ確認';
   diag $e;
 };
 

@@ -1,6 +1,7 @@
 use Record 'test';
 use Test::More;
 use Test::Record;
+my $TR = Test::Record->new();
 
 use Record::List::Command;
 my $obj;

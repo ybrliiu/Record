@@ -1,13 +1,14 @@
 use Record 'test';
 use Test::More;
 use Test::Record;
+my $TR = Test::Record->new();
 
-use Record::List::Log;
-my $class = 'Record::List::Log';
+use Record::List::Letter;
+my $class = 'Record::List::Letter';
 my $obj;
 
 subtest 'new' => sub {
-  $obj = $class->new(file => 'test_log.dat', max => 100);
+  $obj = $class->new(file => 'test_letter.dat', max => 100);
   isa_ok($obj, $class);
 };
 

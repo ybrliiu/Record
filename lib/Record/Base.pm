@@ -37,6 +37,7 @@ package Record::Base {
     };
 
     if (exists $mode->{$lock}) {
+      alarm(5);
       open(my $fh, '+<', $self->file) or Record::Exception->throw("fileopen失敗:$!", $self);
       $self->fh($fh);
       flock($self->fh, $mode->{$lock}) or Record::Exception->throw("flock失敗:$!", $self);
@@ -73,7 +74,7 @@ package Record::Base {
 
   sub rollback {
     my $self = shift;
-    $self->data(undef);
+    $self->{data} = undef;
     $self->open;
     $self->close;
   }

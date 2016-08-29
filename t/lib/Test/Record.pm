@@ -1,11 +1,15 @@
-# データ記録のテストメソッド集
-
 package Test::Record {
 
   use Record;
   use Carp qw/croak/;
   use Test::More;
   use Test::Name::FromLine;
+  use Path::Tiny;
+
+  sub new {
+    my ($class) = @_;
+    return bless {}, $class;
+  }
 
   # データ記録ファイルを実際に作成、読み込み、書き込み、削除するテスト
   sub make_file {
@@ -20,6 +24,13 @@ package Test::Record {
     ok $args{record}->data($args{data});
     ok $args{record}->close;
     ok $args{record}->remove if $args{remove};
+  }
+
+  sub DESTROY {
+    my $iter = path( Record::project_dir() )->iterator({recurse => 1});
+    while (my $path = $iter->() ) {
+      $path->remove() if $path =~ /\.dat$/;
+    }
   }
 
 }
