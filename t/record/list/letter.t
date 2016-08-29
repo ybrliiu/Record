@@ -4,18 +4,18 @@ use Test::Record;
 my $TR = Test::Record->new();
 
 use Record::List::Letter;
-my $class = 'Record::List::Letter';
-my $obj;
+my $CLASS = 'Record::List::Letter';
+my $OBJ;
 
 subtest 'new' => sub {
-  $obj = $class->new(file => 'test_letter.dat', max => 100);
-  isa_ok($obj, $class);
+  $OBJ = $CLASS->new(file => 'test_letter.dat', max => 100);
+  isa_ok($OBJ, $CLASS);
 };
 
 subtest 'make' => sub {
-  $obj->data([]);
+  $OBJ->data([]);
   Test::Record->make_file(
-    record => $obj,
+    record => $OBJ,
     data   => [qw/0 0 0 0 0 0/],
     remove => 1,
   );

@@ -5,28 +5,28 @@ my $TR = Test::Record->new();
 use Test::Exception;
 
 use Record::List::CommandList;
-my $class = 'Record::List::CommandList';
-my $obj;
+my $CLASS = 'Record::List::CommandList';
+my $OBJ;
 
 subtest 'new' => sub {
-  $obj = $class->new(file => 'test_command_list.dat', max => 15);
-  isa_ok($obj, $class);
+  $OBJ = $CLASS->new(file => 'test_command_list.dat', max => 15);
+  isa_ok($OBJ, $CLASS);
 };
 
 subtest 'at' => sub {
-  $obj->data([0 .. 14]);
-  is($obj->at(5), 5);
-  dies_ok { $obj->at(15) };
+  $OBJ->data([0 .. 14]);
+  is($OBJ->at(5), 5);
+  dies_ok { $OBJ->at(15) };
 };
 
 subtest 'save' => sub {
-  ok $obj->save(5, 'save_data');
-  is($obj->at(5), 'save_data');
+  ok $OBJ->save(5, 'save_data');
+  is($OBJ->at(5), 'save_data');
 };
 
 subtest 'make' => sub {
   Test::Record->make_file(
-    record => $obj,
+    record => $OBJ,
     data   => [qw/0 0 0 0 0 0/],
     remove => 1,
   );

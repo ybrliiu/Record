@@ -4,7 +4,6 @@ use Test::Record;
 my $TR = Test::Record->new();
 use Record::Hash;
 
-
 subtest 'file lock' => sub {
   my $record = Record::Hash->new(file => 'file_lock.dat');
   $record->make();

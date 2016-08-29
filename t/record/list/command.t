@@ -4,26 +4,26 @@ use Test::Record;
 my $TR = Test::Record->new();
 
 use Record::List::Command;
-my $obj;
-my $class = 'Record::List::Command';
+my $OBJ;
+my $CLASS = 'Record::List::Command';
 
 subtest 'new' => sub {
-  $obj = $class->new(file => 'test_command.dat', max => 15);
-  isa_ok($obj, $class);
+  $OBJ = $CLASS->new(file => 'test_command.dat', max => 15);
+  isa_ok($OBJ, $CLASS);
 };
 
 subtest 'input' => sub {
-  $obj->add('command') for 0 .. 25;
+  $OBJ->add('command') for 0 .. 25;
   my $input = [qw/0 2 4 6 8 10 16 24/];
-  $obj->input('write', $input);
-  my $commands = $obj->data;
+  $OBJ->input('write', $input);
+  my $commands = $OBJ->data;
   is($commands->[$_], 'write') for @$input;
 };
 
 subtest 'insert' => sub {
   my $none = 'nothing';
-  $obj->insert($none, [2, 4], 3); # 1,4番に3つ空白を入れる
-  my $commands = $obj->data;
+  $OBJ->insert($none, [2, 4], 3); # 1,4番に3つ空白を入れる
+  my $commands = $OBJ->data;
   isnt($commands->[1], $none);
   is($commands->[$_], $none) for (2 .. 4);
   isnt($commands->[5], $none);
@@ -35,8 +35,8 @@ subtest 'insert' => sub {
 
 subtest 'make' => sub {
   Test::Record->make_file(
-    record => $obj,
-    data   => $obj->data,
+    record => $OBJ,
+    data   => $OBJ->data,
     remove => 1,
   );
 };

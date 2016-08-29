@@ -7,13 +7,13 @@ package Test::Record {
   use Path::Tiny;
 
   sub new {
-    my ($class) = @_;
-    return bless {}, $class;
+    my ($CLASS) = @_;
+    return bless {}, $CLASS;
   }
 
   # データ記録ファイルを実際に作成、読み込み、書き込み、削除するテスト
   sub make_file {
-    my ($class, %args) = @_;
+    my ($CLASS, %args) = @_;
     for (qw/record data remove/) {
       croak "please give argment $_" unless exists $args{$_};
     }

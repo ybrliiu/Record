@@ -4,44 +4,44 @@ use Test::Record;
 my $TR = Test::Record->new();
 
 use Record::List;
-my $obj;
-my $class = 'Record::List';
-my $max = 50;
+my $OBJ;
+my $CLASS = 'Record::List';
+my $MAX = 50;
 
 subtest 'new' => sub {
-  $obj = $class->new(
+  $OBJ = $CLASS->new(
     file => 'test_list.dat',
-    max => $max,
+    max => $MAX,
   );
-  isa_ok($obj,$class);
-  can_ok($obj,qw/open make close remove/);
+  isa_ok($OBJ,$CLASS);
+  can_ok($OBJ,qw/open make close remove/);
 };
 
 subtest 'set_alldata' => sub {
-  ok $obj->data([0 .. 15]);
+  ok $OBJ->data([0 .. 15]);
 };
 
 subtest 'get' => sub {
-  my $gets = $obj->get(5);
+  my $gets = $OBJ->get(5);
   is($gets->[$_], $_) for 0 .. 4;
 };
 
 subtest 'add' => sub {
-  $obj->add('test')->add('test2');
-  my $data = $obj->data;
+  $OBJ->add('test')->add('test2');
+  my $data = $OBJ->data;
   is($data->[0], 'test2');
   is($data->[1], 'test');
 };
 
 subtest 'make' => sub {
   Test::Record->make_file(
-    record => $obj,
+    record => $OBJ,
     data   => [0 .. 100],
     remove => 0,
   );
-  $obj->open();
-  is(@{$obj->data}, $max, 'after_close');
-  ok $obj->remove();
+  $OBJ->open();
+  is(@{$OBJ->data}, $MAX, 'after_close');
+  ok $OBJ->remove();
 };
 
 done_testing;
