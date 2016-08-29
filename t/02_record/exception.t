@@ -1,4 +1,4 @@
-use Record 'Test';
+use Record 'test';
 use Test::More; # テストモジュール
 use Test::Exception; # 例外を伴うテスト
 

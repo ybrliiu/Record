@@ -1,4 +1,4 @@
-use Record 'Test';
+use Record 'test';
 use Test::More 0.98;
 
 use_ok $_ for qw(

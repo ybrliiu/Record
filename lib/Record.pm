@@ -12,7 +12,7 @@ package Record 0.04 {
     my ($class, $option) = @_;
     $option //= '';
 
-    if($option eq 'Test'){
+    if($option eq 'test'){
       $_->import for(qw/strict warnings/);
       unshift @INC, './t/lib'; # テストの時パス追加
     }

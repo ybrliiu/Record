@@ -6,7 +6,7 @@ package Record::Base {
   
   # アテリビュート(フィールド+アクセッサ)
   has 'file' => (is => 'rw', isa => 'Str', required => 1);
-  has 'fh' => (is => 'rw', isa => 'FileHandle');
+  has 'fh'   => (is => 'rw', isa => 'FileHandle');
   
   sub data {
     my $self = shift;

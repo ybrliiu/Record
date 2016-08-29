@@ -1,4 +1,4 @@
-use Record 'Test';
+use Record 'test';
 use Test::More;
 use Test::Record;
 use Test::Exception;
