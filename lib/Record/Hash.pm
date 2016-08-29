@@ -1,8 +1,8 @@
 package Record::Hash {
   
-  use Mouse;
-  with 'Record::Base'; # ロール
   use Record;
+  use Mouse;
+  with 'Record::Base';
   
   has 'data' => (is => 'rw', isa => 'HashRef', lazy => 1, builder => '_build_data');
   
