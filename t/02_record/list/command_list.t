@@ -24,7 +24,11 @@ subtest 'save' => sub {
 };
 
 subtest 'make' => sub {
-  Test::Record->makefile($obj, [qw/0 0 0 0 0 0/]);
+  Test::Record->make_file(
+    record => $obj,
+    data   => [qw/0 0 0 0 0 0/],
+    remove => 1,
+  );
 };
 
 done_testing;

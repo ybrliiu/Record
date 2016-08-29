@@ -33,7 +33,11 @@ subtest 'insert' => sub {
 };
 
 subtest 'make' => sub {
-  Test::Record->makefile($obj, $obj->data);
+  Test::Record->make_file(
+    record => $obj,
+    data   => $obj->data,
+    remove => 1,
+  );
 };
 
 done_testing;

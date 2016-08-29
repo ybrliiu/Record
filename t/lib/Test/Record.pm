@@ -3,18 +3,23 @@
 package Test::Record {
 
   use Record;
+  use Carp qw/croak/;
   use Test::More;
+  use Test::Name::FromLine;
 
   # データ記録ファイルを実際に作成、読み込み、書き込み、削除するテスト
-  sub makefile {
-    my ($class, $obj, $data, $dont_remove) = @_;
-    $dont_remove //= '';
-    ok $obj->make;
-    ok $obj->open;
-    ok $obj->open('LOCK_EX');
-    ok $obj->data($data);
-    ok $obj->close;
-    ok $obj->remove unless $dont_remove;
+  sub make_file {
+    my ($class, %args) = @_;
+    for (qw/record data remove/) {
+      croak "please give argment $_" unless exists $args{$_};
+    }
+
+    ok $args{record}->make;
+    ok $args{record}->open;
+    ok $args{record}->open('LOCK_EX');
+    ok $args{record}->data($args{data});
+    ok $args{record}->close;
+    ok $args{record}->remove if $args{remove};
   }
 
 }

@@ -55,7 +55,11 @@ subtest 'filedir' => sub {
 };
 
 subtest 'make' => sub {
-  Test::Record->makefile($obj, {qw/a b c d e f/});
+  Test::Record->make_file(
+    record => $obj,
+    data   => {qw/a b c d e f/},
+    remove => 1,
+  );
 };
 
 done_testing;

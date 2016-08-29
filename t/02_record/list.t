@@ -33,7 +33,11 @@ subtest 'add' => sub {
 };
 
 subtest 'make' => sub {
-  Test::Record->makefile($obj, [0 .. 100], 1);
+  Test::Record->make_file(
+    record => $obj,
+    data   => [0 .. 100],
+    remove => 0,
+  );
   $obj->open();
   is(@{$obj->data}, $max, 'after_close');
   ok $obj->remove();
