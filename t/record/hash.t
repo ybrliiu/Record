@@ -13,7 +13,7 @@ my $PATH = 'test_hash.dat';
 subtest 'new' => sub {
   $OBJ = $CLASS->new(file => $PATH);
   isa_ok($OBJ, $CLASS);
-  can_ok($OBJ, qw/open make close remove find add delete get_list/);
+  can_ok($OBJ, qw/open make close remove at add delete get_list/);
 };
 
 subtest 'set_alldata' => sub {
@@ -23,15 +23,15 @@ subtest 'set_alldata' => sub {
 subtest 'add' => sub {
   my $str = "文章です";
   ok $OBJ->add(what => $str);
-  is($OBJ->find('what'), $str);
+  is($OBJ->at('what'), $str);
   dies_ok { $OBJ->add('' => 'aaaa') } '空文字列キー使用';
   dies_ok { $OBJ->add(what => 'aaaa') } '既に同じキーのデータがある';
 };
 
-subtest 'update&find&exists' => sub {
+subtest 'update&at&exists' => sub {
   my $str = 'change';
   ok $OBJ->update(what => $str);
-  is($OBJ->find('what'), $str);
+  is($OBJ->at('what'), $str);
   ok $OBJ->exists('what');
   ok !$OBJ->exists('hoge');
 };
@@ -48,7 +48,7 @@ subtest 'search' => sub {
 
 subtest 'delete' => sub {
   ok $OBJ->delete('what');
-  dies_ok { $OBJ->find('what') }
+  dies_ok { $OBJ->at('what') }
 };
 
 subtest 'filedir' => sub {
