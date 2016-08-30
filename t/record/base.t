@@ -40,4 +40,23 @@ subtest 'rollback' => sub {
   $rec2->close();
 };
 
+subtest 'confilm when throw exception, flock is unlocked.' => sub {
+  my $record = Record::Hash->new(file => 'exception.dat');
+  Test::Record->make_file(
+    record => $record,
+    data   => {some => 'thing'},
+    remove => 0,
+  );
+
+  {
+    eval {
+      $record->open('LOCK_EX');
+      Record::Exception->throw('why exception throwed????', $record);
+    };
+    my $record2 = Record::Hash->new(file => 'exception.dat');
+    ok $record2->open('NB_LOCK_EX'), '$record is unlocked.';
+  }
+
+};
+
 done_testing();
