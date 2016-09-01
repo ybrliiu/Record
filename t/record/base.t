@@ -32,11 +32,11 @@ subtest 'rollback' => sub {
   $record->update(dummy => 'change');
   $record->rollback();
 
-  is $record->at('dummy'), 'hoge', 'rollback success';
+  is $record->fetch('dummy'), 'hoge', 'rollback success';
 
   my $rec2 = Record::Hash->new(file => 'rollback.dat');
   $rec2->open('LOCK_EX');
-  is $record->at('dummy'), 'hoge', 'rollback success at other file handle.';
+  is $record->fetch('dummy'), 'hoge', 'rollback success at other file handle.';
   $rec2->close();
 };
 
